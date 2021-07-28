@@ -7,6 +7,7 @@
 void MCUinit(void);
 void CLOCKinit(void);
 void GPIOinit(void);
+void delay (uint32_t time);
 
 int main (void){
 
@@ -59,4 +60,7 @@ void GPIOinit(void){
 	GPIOA->MODER |= (1 << 28); // BITS 29:28 -> 01
 	
 	
+}
+void delay (uint32_t time){
+	while(time--);
 }
