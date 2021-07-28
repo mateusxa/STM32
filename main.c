@@ -13,8 +13,10 @@ int main (void){
 	MCUinit();
 	
 	while(1){
-
-		
+		GPIOA->BSRR |= (1 << 14);		// Set PA14
+		delay(1000000);
+		GPIOA->BSRR |= ((1 << 14) << 16);		// Reset PA14
+		delay(1000000);
 	}
 	
 }
