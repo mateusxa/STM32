@@ -4,15 +4,25 @@
 
 #define PLL	2
 
-
+void MCUinit(void);
 void CLOCKinit(void);
+void GPIOinit(void);
 
 int main (void){
 
+	MCUinit();
 	
 	while(1){
+
 		
 	}
+	
+}
+
+void MCUinit(void){
+
+	CLOCKinit();
+	GPIOinit();
 	
 }
 
@@ -35,5 +45,16 @@ void CLOCKinit(void){
 	// Set Internal Clock as clock source
 	RCC->CFGR |= RCC_CFGR_SW_HSI;
 	while((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_HSI);
+	
+}
+
+void GPIOinit(void){
+
+	// Enable GPIO Port A Clock
+	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
+	
+	// Setting PA14 as output
+	GPIOA->MODER |= (1 << 28); // BITS 29:28 -> 01
+	
 	
 }
