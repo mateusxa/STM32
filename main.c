@@ -2,7 +2,6 @@
 #include "stm32f030x6.h"
 
 
-#define PLL	2
 
 void MCUinit(void);
 void CLOCKinit(void);
@@ -14,10 +13,10 @@ int main (void){
 	MCUinit();
 	
 	while(1){
-		GPIOA->BSRR |= (1 << 14);		// Set PA14
-		delay(1000000);
-		GPIOA->BSRR |= ((1 << 14) << 16);		// Reset PA14
-		delay(1000000);
+		GPIOA->BSRR |= (1 << 3);		// Set PA14
+		delay(100000000);
+		GPIOA->BSRR |= ((1 << 3) << 16);		// Reset PA14
+		delay(10000000);
 	}
 	
 }
@@ -57,7 +56,7 @@ void GPIOinit(void){
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
 	
 	// Setting PA14 as output
-	GPIOA->MODER |= (1 << 28); // BITS 29:28 -> 01
+	GPIOA->MODER |= (1 << 6); // BITS 29:28 -> 01
 	
 	
 }
