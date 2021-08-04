@@ -3,6 +3,10 @@
         {
             "name": "Target 1",
             "includePath": [
+                "E:\\Keil_v5\\ARM\\ARMCLANG\\include",
+                "E:\\Keil_v5\\ARM\\ARMCLANG\\include\\arm_linux",
+                "E:\\Keil_v5\\ARM\\ARMCLANG\\include\\arm_linux_compat",
+                "E:\\Keil_v5\\ARM\\ARMCLANG\\include\\libcxx",
                 "e:\\GitRepositories\\STM32"
             ],
             "defines": [

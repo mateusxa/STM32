@@ -6,7 +6,9 @@
 void MCUinit(void);
 void CLOCKinit(void);
 void GPIOinit(void);
-void delay (uint32_t time);
+void TIMER3init(void);
+void Delay_us (uint16_t us);
+void Delay_ms (uint16_t ms);
 
 int main (void){
 
@@ -14,9 +16,9 @@ int main (void){
 	
 	while(1){
 		GPIOA->BSRR |= (1 << 3);		// Set PA14
-		delay(1000000);
+		Delay_ms(100);
 		GPIOA->BSRR |= ((1 << 3) << 16);		// Reset PA14
-		delay(1000000);
+		Delay_ms(100);
 	}
 	
 }
@@ -25,7 +27,7 @@ void MCUinit(void){
 
 	CLOCKinit();
 	GPIOinit();
-	
+	TIMER3init();
 }
 
 void CLOCKinit(void){
@@ -36,7 +38,7 @@ void CLOCKinit(void){
 	
 	RCC->CFGR |= RCC_CFGR_HPRE_DIV1; // NUCLEO RODANDO 8MHZ
 	
-	RCC->CFGR |= RCC_CFGR_PPRE_DIV8;	// PERIFERICOS RODANDO A 1MHZ
+	RCC->CFGR |= RCC_CFGR_PPRE_DIV1;	// PERIFERICOS RODANDO A 8MHZ
 	
 }
 
@@ -50,11 +52,25 @@ void GPIOinit(void){
 	
 	
 }
-void delay (uint32_t time){
-	do{
-		__NOP();
-		__NOP();
-		__NOP();
-		__NOP();
-	}while(time--);
+void TIMER3init(void){
+
+	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+ 
+	TIM3->PSC = 8-1; // 8MHz / 8 = 1 MHz uS delay
+	TIM3->ARR = 0xFFFF; // MAX ARR value
+	
+	TIM3->CR1 |= (1 << 0); // Enable counter CEN
+	
+	while(!(TIM3->SR & (1<<0)));
+
+}
+
+void Delay_us (uint16_t us){
+	TIM3->CNT = 0;
+	while (TIM3->CNT < us);
+}
+void Delay_ms(uint16_t ms){
+	for (uint16_t i=0; i<ms; i++){
+		Delay_us(1000);
+	}	
 }
